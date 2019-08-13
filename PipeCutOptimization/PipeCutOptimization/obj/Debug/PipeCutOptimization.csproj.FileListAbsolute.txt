@@ -1,0 +1,7 @@
+C:\Users\Zachary Vasey\Desktop\codingProject\PipeCutOptimization\PipeCutOptimization\bin\Debug\PipeCutOptimization.exe.config
+C:\Users\Zachary Vasey\Desktop\codingProject\PipeCutOptimization\PipeCutOptimization\bin\Debug\PipeCutOptimization.exe
+C:\Users\Zachary Vasey\Desktop\codingProject\PipeCutOptimization\PipeCutOptimization\bin\Debug\PipeCutOptimization.pdb
+C:\Users\Zachary Vasey\Desktop\codingProject\PipeCutOptimization\PipeCutOptimization\obj\Debug\PipeCutOptimization.csprojAssemblyReference.cache
+C:\Users\Zachary Vasey\Desktop\codingProject\PipeCutOptimization\PipeCutOptimization\obj\Debug\PipeCutOptimization.csproj.CoreCompileInputs.cache
+C:\Users\Zachary Vasey\Desktop\codingProject\PipeCutOptimization\PipeCutOptimization\obj\Debug\PipeCutOptimization.exe
+C:\Users\Zachary Vasey\Desktop\codingProject\PipeCutOptimization\PipeCutOptimization\obj\Debug\PipeCutOptimization.pdb
