@@ -11,7 +11,7 @@ namespace PipeCutOptimization
         static void Main(string[] args)
         {
             //get random values to cut and sort
-            Pipe[] testPipeValues = Pipe.GetRandomValues(12, 50.0).ToArray();
+            Pipe[] testPipeValues = Pipe.GetRandomValues(18, 50.0).ToArray();
             Array.Sort(testPipeValues);
 
             //Console.WriteLine(ListToString(testPipeValues.ToList<Pipe>()));
@@ -36,8 +36,10 @@ namespace PipeCutOptimization
 
             foreach (SourcePipe sp in sourcePipes)
             {
+                Console.WriteLine();
                 Console.Write("Pipe Length: " + sp.Length + ", ");
-                Console.Write("Waste: " + sp.GetWaste() + ", \n");
+                Console.Write("SubPipes: " + ListToString(sp.GetSubPipes()));
+                Console.WriteLine("Waste: " + sp.GetWaste() + ", \n");
                 
             }
             

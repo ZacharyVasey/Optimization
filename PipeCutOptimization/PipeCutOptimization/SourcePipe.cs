@@ -18,6 +18,10 @@ namespace PipeCutOptimization
             Length = length;
             SubPipes = new List<Pipe>();
         }
+        public List<Pipe> GetSubPipes()
+        {
+            return SubPipes;
+        }
         public void AddSubPipe(List<Pipe> Pipes)
         {
             foreach (Pipe p in Pipes)

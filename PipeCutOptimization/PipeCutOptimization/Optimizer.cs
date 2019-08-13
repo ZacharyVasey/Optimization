@@ -22,7 +22,7 @@ namespace PipeCutOptimization
         public static List<List<Pipe>> GetAvailableTotalPipes(Pipe sourcePipe, List<Pipe> pipeList)
         {
             //TEST
-            Console.WriteLine("In GetAvailibleTotalPipes");
+            //Console.WriteLine("In GetAvailibleTotalPipes");
             //END TEST
 
             //Convert List of Pipes to array
@@ -76,7 +76,7 @@ namespace PipeCutOptimization
                     if (j - 1 < 0)
                     {
                         //TEST
-                        Console.WriteLine("tempTotal: " + tempTotal);
+                        //Console.WriteLine("tempTotal: " + tempTotal);
                         //TEST END
                         if (tempTotal <= sourcePipe.Length)
                         {
