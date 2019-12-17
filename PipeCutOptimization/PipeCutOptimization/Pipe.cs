@@ -8,15 +8,15 @@ namespace PipeCutOptimization
 {
     class Pipe : IComparable
     {
-        public double Length { get; protected set; }
-        public int UniqueId { get; protected set; }
-        public double Cost { get; protected set; }
-        public int DbCode { get; protected set; }
-        public string LongDescription { get; protected set; }
-        public double AlphaSize { get; protected set; }
+        public double Length { get; set; }
+        public int ItemNo { get; set; }
+        public double Cost { get; set; }
+        public int DbCode { get; set; }
+        public string LongDescription { get; set; }
+        public double AlphaSize { get; set; }
         public Pipe(int id, double length)
         {
-            UniqueId = id;
+            ItemNo = id;
             Length = length;
         }
         public Pipe(double length)
@@ -43,7 +43,7 @@ namespace PipeCutOptimization
         public override string ToString()
         {
             string temp = "[";
-            temp = temp + "Unique ID: " + this.UniqueId + ", ";
+            temp = temp + "Unique ID: " + this.ItemNo + ", ";
             temp = temp + "Length: " + this.Length;
             temp = temp + "]";
             return temp;

@@ -17,122 +17,66 @@ namespace PipeCutOptimization
 
         }
 
-        // Get all available combinations you can cut from a source pipe
-        // 
-        public static List<List<Pipe>> GetAvailableTotalPipes(Pipe sourcePipe, List<Pipe> pipeList)
+        public static List<Pipe> GetOptimalCombination(SourcePipe sourcePipe, List<Pipe> pipeList)
         {
-            //TEST
-            //Console.WriteLine("In GetAvailibleTotalPipes");
-            //END TEST
+            //Algorithm based on the Bin Packing Algorithm
+            //https://www.youtube.com/watch?v=kiMFyTWqLhc
 
-            //Convert List of Pipes to array
-            Pipe[] pipes = pipeList.ToArray();
-
-            //Sort array from low - high
-            Array.Sort(pipes);
+            // Sorts Input List
+            pipeList.Sort();
 
             //return value
-            List<List<Pipe>> valueMatrix = new List<List<Pipe>>();
+            List<Pipe> optimalCombination = new List<Pipe>();
 
-            // List to store binary total
-            List<string> binaryPipeList = new List<string>();
+            // Used to get the total length remaining from the source pipe
+            double tempRemaining = sourcePipe.Length;
 
-            //used to store bin of current combonation
-            string binValOfNum;
-            
-            // Used to get the total of the pipes selected
-            double tempTotal = 0;
-
-            for (int i = 1; i < (int)Math.Pow(2, (double)pipes.Length); i++)
+            for (int i = pipeList.Count - 1; i >= 0; i--)
             {
-                //TEST
-                //Console.WriteLine("i: " + i);
-                //END TEST
-
-                binValOfNum = Convert.ToString(i, 2);
-                
-                //TEST
-                //Console.WriteLine("binValOfNum: " + binValOfNum);
-                //END TEST
-
-                for (int j = binValOfNum.Length - 1; j >= 0; j--)
+                if (pipeList.ElementAt(i).Length < tempRemaining)
                 {
-                    //TEST
-                    /*Console.WriteLine("j: " + j);
-                    double temp0 = binValOfNum.Length - 1 - j;
-                    double temp1 = pipes[binValOfNum.Length - 1 - j];
-                    double temp2 = Convert.ToInt32(binValOfNum[j]) - 48;    // covert to ASCII VALUE
-                    */
-                    //END TEST
-
-                    tempTotal = tempTotal + pipes[binValOfNum.Length - 1 - j].Length * (Convert.ToInt32(binValOfNum[j]) - 48);
-                    
-                    //TEST
-                    //Console.WriteLine("pipes[binValOfNum.Length - 1 - j]: " + pipes[binValOfNum.Length - 1 - j]);
-                    //Console.WriteLine("binValOfNum[j]: " + (Convert.ToInt32(binValOfNum[j]) - 48));
-                    //END TEST
-                    
-                    // see if the combonation is possible after all the values have been added
-                    if (j - 1 < 0)
-                    {
-                        //TEST
-                        //Console.WriteLine("tempTotal: " + tempTotal);
-                        //TEST END
-                        if (tempTotal <= sourcePipe.Length)
-                        {
-                            binaryPipeList.Add(binValOfNum);
-                        }
-                    }
+                    tempRemaining -= pipeList.ElementAt(i).Length;
+                    sourcePipe.AddSubPipe(pipeList.ElementAt(i));
+                    pipeList.RemoveAt(i);
                 }
-                tempTotal = 0;
             }
+            return optimalCombination;
+        }
 
-            // temp list to add each combonation to the valueMatrix
-            List<Pipe> tempPipeValueList = new List<Pipe>();
+        public static List<Pipe> GetOptimalCombination(SourcePipe sourcePipe, List<Pipe> pipeList, double bladeThickness)
+        {
+            //Algorithm based on the Bin Packing Algorithm
+            //https://www.youtube.com/watch?v=kiMFyTWqLhc
 
-            // foreach binary representation of the list, convert it into the actual values
-            foreach (var element in binaryPipeList)
+            // Sorts Input List
+            pipeList.Sort();
+
+            //return value
+            List<Pipe> optimalCombination = new List<Pipe>();
+
+            // Used to get the total length remaining from the source pipe
+            double tempRemaining = sourcePipe.Length;
+
+            for (int i = pipeList.Count - 1; i >= 0; i--)
             {
-                for (int i = element.Length - 1; i >= 0; i--)
+                if (pipeList.ElementAt(i).Length + bladeThickness < tempRemaining)
                 {
-                    if (Convert.ToInt32(element[i]) - 48 != 0)
-                    {
-                        tempPipeValueList.Add(pipes[element.Length - 1 - i]);
-                    }
+                    tempRemaining -= pipeList.ElementAt(i).Length + bladeThickness;
+                    sourcePipe.AddSubPipe(pipeList.ElementAt(i));
+                    pipeList.RemoveAt(i);
                 }
-
-                // add the combonation to the valueMatrix
-                valueMatrix.Add(new List<Pipe>(tempPipeValueList));
-
-                //TEST
-                /*foreach (var i in tempPipeValueList)
-                {
-                    Console.Write(i + ", ");
-                }
-                Console.WriteLine();*/
-                //END TEST
-
-                // clear the list for the next iteration
-                tempPipeValueList.Clear();
             }
-            //TEST
-            /*Console.WriteLine("Begin valueMatrix");
-            foreach (var i in valueMatrix)
+            return optimalCombination;
+        }
+
+        public static void GetOptimalCombination(List<SourcePipe> sourcePipes, List<Pipe> pipeList)
+        {
+            sourcePipes.Sort();
+            foreach (SourcePipe sp in sourcePipes)
             {
-                foreach (var elm in i)
-                {
-                    Console.Write(elm + ", ");
-                }
-                Console.WriteLine();
+                sp.AddSubPipe(Optimizer.GetOptimalCombination(sp, pipeList));
+                pipeList.Sort();
             }
-            Console.WriteLine("End valueMatrix");*/
-            //END TEST
-
-            //TEST
-            //Console.WriteLine("Out GetAvailibleTotalPipes");
-            //END TEST
-
-            return valueMatrix;
         }
 
         public static string DisplayMatrix(List<List<Pipe>> l)
@@ -175,40 +119,6 @@ namespace PipeCutOptimization
 
             return returnVal;
         }
-
-        public static List<Pipe> GetOptimalCombonation(Pipe sourcePipe, List<List<Pipe>> valueMatrix)
-        {
-            double[] totalValuesOfCombonations = GetTotalValueArray(valueMatrix);
-            DisplayMatrix(valueMatrix);
-            double min;
-            try
-            {
-                min = sourcePipe.Length - totalValuesOfCombonations[0];
-            }
-            catch(IndexOutOfRangeException ex)
-            {
-                Console.WriteLine(ex);
-                return new List<Pipe>();
-            }
-            int indexOfBestCombonation = 0;
-
-            for (int i = 1; i < totalValuesOfCombonations.Length; i++)
-            {
-                if(sourcePipe.Length - totalValuesOfCombonations[i] < min)
-                {
-                    min = sourcePipe.Length - totalValuesOfCombonations[i];
-                    indexOfBestCombonation = i;
-                }
-            }
-
-            return valueMatrix.ElementAt(indexOfBestCombonation);
-        }
-
-        public static void GetOptimalSourcePipeCombonaition()
-        {
-
-        }
-
 
         private static double[] GetTotalValueArray(List<List<Pipe>> valueMatrix)
         {
