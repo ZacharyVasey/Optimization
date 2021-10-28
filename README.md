@@ -1,0 +1,2 @@
+# Optimization
+This program lays out the proof of concept for a more complex program that plans piping cutting logistics. Pipe is almost always shipped in uniform sizes that needs to be cut on the job site. Cutting that pipe in the most efficient manor is best achieved using the bin packing algorithm. This proof-of-concept program implements the bin packing algorithm to detail plans for pipe cuts. It factors in pipe loss during cuts and will specify how much pipe is wasted. 
